@@ -1,15 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace InternetChecks
+﻿namespace InternetChecks
 {
     public partial class AlertForm : Form
     {
@@ -47,10 +36,27 @@ namespace InternetChecks
         {
             this.Close();
 
-            if(this.Owner is Form1 ownerForm)
+            if (this.Owner is Form1 ownerForm)
             {
                 ownerForm.ExternStopTimer3();
             }
+        }
+
+        public string AlarmText
+        {
+            get
+            {
+                if (!this.IsHandleCreated) return string.Empty;
+                if (this.InvokeRequired)
+                {
+                    return (string)this.Invoke(new Func<string>(() => label1?.Text ?? string.Empty));
+                }
+                return label1?.Text ?? string.Empty;
+            }
+        }
+        public string GetText()
+        {
+            return AlarmText;
         }
     }
 }

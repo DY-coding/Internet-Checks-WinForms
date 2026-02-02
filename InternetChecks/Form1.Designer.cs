@@ -33,7 +33,6 @@
             contextMenuStrip1 = new ContextMenuStrip(components);
             infoToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
-            testToolStripMenuItem = new ToolStripMenuItem();
             timer1_CheckNetStatus = new System.Windows.Forms.Timer(components);
             timer2_ContextMenuUpdate = new System.Windows.Forms.Timer(components);
             timer3_Fading = new System.Windows.Forms.Timer(components);
@@ -50,9 +49,9 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { infoToolStripMenuItem, exitToolStripMenuItem, testToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { infoToolStripMenuItem, exitToolStripMenuItem});
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(241, 133);
+            contextMenuStrip1.Size = new Size(116, 100);
             contextMenuStrip1.Closed += contextMenuStrip1_Closed;
             contextMenuStrip1.Opening += contextMenuStrip1_Opening;
             // 
@@ -60,27 +59,19 @@
             // 
             infoToolStripMenuItem.Enabled = false;
             infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            infoToolStripMenuItem.Size = new Size(240, 32);
+            infoToolStripMenuItem.Size = new Size(115, 32);
             infoToolStripMenuItem.Text = "info";
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(240, 32);
+            exitToolStripMenuItem.Size = new Size(115, 32);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
-            // testToolStripMenuItem
-            // 
-            testToolStripMenuItem.Name = "testToolStripMenuItem";
-            testToolStripMenuItem.Size = new Size(240, 32);
-            testToolStripMenuItem.Text = "test";
-            testToolStripMenuItem.Visible = false;
-            testToolStripMenuItem.Click += testToolStripMenuItem_Click;
-            // 
             // timer1_CheckNetStatus
             // 
-            timer1_CheckNetStatus.Interval = 60000;
+            timer1_CheckNetStatus.Interval = 1000;
             timer1_CheckNetStatus.Tick += timer1_Tick;
             // 
             // timer2_ContextMenuUpdate
@@ -95,7 +86,7 @@
             // 
             // timer4_DelayFading
             // 
-            timer4_DelayFading.Interval = 5000;
+            timer4_DelayFading.Interval = 4000;
             timer4_DelayFading.Tick += timer4_DelayFading_Tick;
             // 
             // Form1
@@ -119,8 +110,8 @@
         private ToolStripMenuItem infoToolStripMenuItem;
         
         private System.Windows.Forms.Timer timer2_ContextMenuUpdate;
-        private ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.Timer timer3_Fading;
         private System.Windows.Forms.Timer timer4_DelayFading;
+        
     }
 }
