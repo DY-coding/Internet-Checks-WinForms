@@ -45,13 +45,14 @@
             notifyIcon1.ContextMenuStrip = contextMenuStrip1;
             notifyIcon1.Text = "Check Net Alive";
             notifyIcon1.DoubleClick += notifyIcon1_DoubleClick;
+            notifyIcon1.MouseUp += TrayIcon_MouseUp;
             // 
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { infoToolStripMenuItem, exitToolStripMenuItem});
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { infoToolStripMenuItem, exitToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(116, 100);
+            contextMenuStrip1.Size = new Size(116, 68);
             contextMenuStrip1.Closed += contextMenuStrip1_Closed;
             contextMenuStrip1.Opening += contextMenuStrip1_Opening;
             // 

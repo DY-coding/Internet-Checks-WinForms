@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Numerics;
+using System.Reflection;
 
 namespace InternetChecks
 {
@@ -32,6 +33,8 @@ namespace InternetChecks
         private int CheckInterval = PING_INTERVAL;
 
         private AlertForm? _alertFormInstance = null;
+
+        private int disconnectCount = 0;
 
         public Form1()
         {
@@ -74,15 +77,20 @@ namespace InternetChecks
             Color moneyGreen = Color.FromArgb(192, 220, 192);
 
             notifyIcon1.Icon = InternetChecks.Resource1.grayNet;
-            
-            bool status = await NetCheck.IsNetAlive();
-            // контрольная проверка через полсекунды
-            if (!status) 
+
+
+            bool status = false;
+            // учет ложноположительного отказа
+            int retries = 3;
+            for(int i=0; i< retries; i++)
             {
+                status = await NetCheck.IsNetAlive();
+                if (status) break;
+
                 await Task.Delay(1000);
-                status = await NetCheck.IsNetAlive(NetMode.CloudFlare);
             }
 
+            
 
             if (status)
             {
@@ -122,6 +130,9 @@ namespace InternetChecks
                 {
                     if (alive != null)
                     {
+                        disconnectCount++;
+                        notifyIcon1.Text = "Net Check Alive [Disconnected " + disconnectCount + " times]";
+
                         if (_alertFormInstance == null || _alertFormInstance.IsDisposed)
                         {
                             _alertFormInstance = new AlertForm();
@@ -166,6 +177,16 @@ namespace InternetChecks
             System.Diagnostics.Process.Start("control.exe", "ncpa.cpl");
         }
 
+        private void TrayIcon_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                MethodInfo mi = typeof(NotifyIcon).GetMethod("ShowContextMenu", BindingFlags.Instance | BindingFlags.NonPublic);
+                mi?.Invoke(notifyIcon1, null);
+            }
+        }
+
+
         private void contextMenuStrip1_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             this.timer2_ContextMenuUpdate.Stop();
@@ -193,6 +214,7 @@ namespace InternetChecks
         }
 
 
+   
     }
 
 
