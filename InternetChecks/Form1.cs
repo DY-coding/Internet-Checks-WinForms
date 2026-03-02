@@ -39,6 +39,17 @@ namespace InternetChecks
         public Form1()
         {
             InitializeComponent();
+
+            string longestText = "✔ Проверка сети через 00 сек.";
+            using (Graphics g = this.CreateGraphics())
+            {
+                SizeF sizr = g.MeasureString(longestText, infoToolStripMenuItem.Font);
+
+                contextMenuStrip1.AutoSize = false;
+                contextMenuStrip1.Width = 330;
+            }
+
+
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
