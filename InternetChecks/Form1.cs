@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace InternetChecks
 {
@@ -12,7 +11,9 @@ namespace InternetChecks
 
     public partial class Form1 : Form
     {
-        
+        private Icon IconGray;
+        private Icon IconGreen;
+        private Icon IconRed;
 
         public void ExternStopTimer3()
         {
@@ -60,9 +61,14 @@ namespace InternetChecks
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            IconGray = InternetChecks.Resource1.grayNet;
+            IconGreen = InternetChecks.Resource1.greenNet;
+            IconRed = InternetChecks.Resource1.redNet;
+
+            
             this.Visible = false;
             this.ShowInTaskbar = false;
-            notifyIcon1.Icon = InternetChecks.Resource1.grayNet;
+            notifyIcon1.Icon = IconGray;
             notifyIcon1.Visible = true;
             this.infoToolStripMenuItem.Text = "Период обновления " + PING_INTERVAL + " секунд";
 
@@ -87,7 +93,7 @@ namespace InternetChecks
         {
             Color moneyGreen = Color.FromArgb(192, 220, 192);
 
-            notifyIcon1.Icon = InternetChecks.Resource1.grayNet;
+            notifyIcon1.Icon = IconGray;
 
 
             bool status = false;
@@ -105,7 +111,7 @@ namespace InternetChecks
 
             if (status)
             {
-                notifyIcon1.Icon = InternetChecks.Resource1.greenNet;
+                notifyIcon1.Icon = IconGreen;
                 if (alive == null || alive == false)
                 {
                     if (alive != null)
@@ -115,6 +121,9 @@ namespace InternetChecks
                         {
                             _alertFormInstance = new AlertForm();
                             _alertFormInstance.Owner = this;
+
+                            _alertFormInstance.FormClosed += (s, args) => { _alertFormInstance = null; };
+
                             _alertFormInstance.Show();
                         }
                         else
@@ -136,7 +145,7 @@ namespace InternetChecks
             }
             else
             {
-                notifyIcon1.Icon = InternetChecks.Resource1.redNet;
+                notifyIcon1.Icon = IconRed;
                 if (alive == null || alive == true)
                 {
                     if (alive != null)
@@ -211,8 +220,12 @@ namespace InternetChecks
 
                 if (_alertFormInstance.Opacity < 0.25)
                 {
-                    _alertFormInstance.Close();
                     timer3_Fading.Stop();
+
+                    _alertFormInstance.Close();
+                    _alertFormInstance.Dispose();
+                    _alertFormInstance = null;
+                    
                 }
                 _alertFormInstance.Opacity -= 0.002;
             }
@@ -249,8 +262,11 @@ namespace InternetChecks
 
             try
             {
-                var response = await client.GetAsync(Urls[(int)mode], HttpCompletionOption.ResponseHeadersRead);
-                return response.IsSuccessStatusCode;
+                using (var response = await client.GetAsync(Urls[(int)mode], HttpCompletionOption.ResponseHeadersRead))
+                {
+                    return response.IsSuccessStatusCode;
+                }
+                    
             }
             catch (HttpRequestException)
             {
