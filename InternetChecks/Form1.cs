@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Configuration;
+using System.Reflection;
 
 namespace InternetChecks
 {
@@ -215,20 +216,20 @@ namespace InternetChecks
 
         private void timer3_Tick(object sender, EventArgs e)
         {
-            if (_alertFormInstance != null)
+            var localPtrAlertForm = _alertFormInstance;
+            if (localPtrAlertForm == null) return;
+           
+            if (localPtrAlertForm.Opacity < 0.25)
             {
-
-                if (_alertFormInstance.Opacity < 0.25)
-                {
                     timer3_Fading.Stop();
 
-                    _alertFormInstance.Close();
-                    _alertFormInstance.Dispose();
+                    localPtrAlertForm.Close();
+                    localPtrAlertForm.Dispose();
                     _alertFormInstance = null;
-                    
-                }
-                _alertFormInstance.Opacity -= 0.002;
+                    return;
             }
+
+            localPtrAlertForm.Opacity -= 0.002;
         }
 
         private void timer4_DelayFading_Tick(object sender, EventArgs e)
