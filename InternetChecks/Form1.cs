@@ -94,7 +94,11 @@ namespace InternetChecks
         {
             Color moneyGreen = Color.FromArgb(192, 220, 192);
 
-            notifyIcon1.Icon = IconGray;
+            // показывать индикацию выполнения проверки (серый) только во время соединения, иначе постоянно красный
+            if (notifyIcon1.Icon == IconGreen)
+            {
+                notifyIcon1.Icon = IconGray;
+            }
 
 
             bool status = false;
